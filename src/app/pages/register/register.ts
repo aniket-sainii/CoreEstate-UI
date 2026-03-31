@@ -32,7 +32,7 @@ export class Register {
   },
   error: err => {
     console.log('ERROR', err);
-    alert(err.error);
+    alert(err?.error=='User already exists' ? 'Email already registered' : 'Register failed');
   }
       });
   }
