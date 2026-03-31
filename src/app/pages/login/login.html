@@ -11,9 +11,11 @@
       <input id="password" type="password" [(ngModel)]="password" name="password" required />
     </div>
 
-    <div *ngIf="error" style="color: red">{{ error }}</div>
-
+    @if(error){
+      <div style="color: red">{{ error }}</div>
+    }
     <button type="submit" [disabled]="loading">Login</button>
   </form>
+  <button type="submit" [routerLink]="['/register']">Don't have an account? Register</button>
 </div>
 

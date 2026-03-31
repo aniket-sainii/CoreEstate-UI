@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 interface LoginResponse {
   token: string;
 }
+interface RegisterResponse {
+  message: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +23,15 @@ export class AuthService {
       tap(res => {
         if (res && res.token) {
           localStorage.setItem('jwt_token', res.token);
+        }
+      })
+    );
+  }
+  register(email: string, password: string): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.apiUrl}/register`, { email, password }).pipe(
+      tap(res => {
+        if (res && res.message) {
+         
         }
       })
     );
