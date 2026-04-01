@@ -2,4 +2,30 @@
   <h2>Welcome to Home</h2>
   <p>home works!</p>
   <button (click)="logout()" class="logout-btn">Logout</button>
+  <div class="table-container">
+
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (project of projects; track project.id) {
+        <tr>
+          <td>{{ project.id }}</td>
+          <td>{{ project.name }}</td>
+          <td>{{ project.description }}</td>
+          <td><button (click)="editProject(project)" class="edit-btn">Edit</button></td>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+  </div>
+
 </div>

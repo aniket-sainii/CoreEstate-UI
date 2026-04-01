@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
+import { API_ENDPOINTS } from '../constants/api.constants';
 
 interface LoginResponse {
   token: string;
@@ -14,12 +16,12 @@ interface RegisterResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7278/api/auth';
+  private apiUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient, private router: Router) {}
 
   login(email: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
+    return this.http.post<LoginResponse>(`${this.apiUrl}${API_ENDPOINTS.AUTH.LOGIN}`, { email, password }).pipe(
       tap(res => {
         if (res && res.token) {
           localStorage.setItem('jwt_token', res.token);
@@ -28,7 +30,7 @@ export class AuthService {
     );
   }
   register(email: string, password: string): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>(`${this.apiUrl}/register`, { email, password }).pipe(
+    return this.http.post<RegisterResponse>(`${this.apiUrl}${API_ENDPOINTS.AUTH.REGISTER}`, { email, password }).pipe(
       tap(res => {
         if (res && res.message) {
          
