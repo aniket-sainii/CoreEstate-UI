@@ -1,0 +1,40 @@
+<div class="container" *ngIf="project">
+
+  <h2>Edit Project</h2>
+
+  <!-- Project -->
+  <div class="card">
+    <label>Name</label>
+    <input [(ngModel)]="project.name" />
+
+    <label>Description</label>
+    <textarea [(ngModel)]="project.description"></textarea>
+  </div>
+
+  <!-- Buildings -->
+  <h3>Buildings</h3>
+
+    <div class="building-row" *ngFor="let building of project.buildings">
+
+      <div>
+        <label>Name</label>
+        <input [(ngModel)]="building.name" />
+      </div>
+
+      <div>
+        <label>Description</label>
+        <textarea [(ngModel)]="building.description"></textarea>
+      </div>
+
+      <div class="actions">
+        <button (click)="addBuilding()">+</button>
+        <button (click)="removeBuilding(building.id)">✕</button>
+      </div>
+
+    </div>
+  
+
+    
+  <button class="save-btn" (click)="save()">Save Project</button>
+
+</div>

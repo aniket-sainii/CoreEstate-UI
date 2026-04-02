@@ -1,6 +1,5 @@
 <div class="home-container">
   <h2>Welcome to Home</h2>
-  <p>home works!</p>
   <button (click)="logout()" class="logout-btn">Logout</button>
   <div class="table-container">
 
@@ -13,16 +12,26 @@
           <th>Edit</th>
         </tr>
       </thead>
-
-      <tbody>
-        @for (project of projects; track project.id) {
+      
+      <tbody *ngIf="projects.length > 0">
+        
+        <tr *ngFor="let project of projects">
+          <td>{{ project.id }}</td>
+          <td>{{ project.name }}</td>
+          <td>{{ project.description }}</td>
+          <td>
+            <button (click)="editProject(project)">Edit</button>
+          </td>
+        </tr>
+        
+        <!-- @for (project of projects; track project.id) {
         <tr>
           <td>{{ project.id }}</td>
           <td>{{ project.name }}</td>
           <td>{{ project.description }}</td>
           <td><button (click)="editProject(project)" class="edit-btn">Edit</button></td>
         </tr>
-        }
+        } -->
       </tbody>
     </table>
 

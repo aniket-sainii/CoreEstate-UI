@@ -3,6 +3,8 @@ import { AuthService } from '../../services/auth.service';
 import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.model';
 import { CommonModule } from '@angular/common';
+import { Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -16,7 +18,8 @@ export class Home implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -35,8 +38,6 @@ export class Home implements OnInit {
   }
 
   editProject(project: Project): void {
-    console.log('Editing project:', project.name);
-    // In a real app we'd navigate to an edit form or open a dialog
-    alert(`Editing project: ${project.name}`);
+    this.router.navigate(['/edit-project', project.id]);
   }
 }

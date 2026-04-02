@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { API_ENDPOINTS } from '../constants/api.constants';
 import { environment } from '../../environments/environment';
+import { projectBuilding } from '../models/projectList.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,9 @@ export class ProjectService {
   getProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(`${this.apiUrl}${API_ENDPOINTS.PROJECTS.GET_ALL}`);
         
+  }
+
+  getProjetById(id:number): Observable<projectBuilding> {
+    return this.http.get<projectBuilding>(`${this.apiUrl}${API_ENDPOINTS.PROJECTS.GET_BY_ID.replace('{id}', id.toString())}`);
   }
 }

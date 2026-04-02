@@ -6,6 +6,7 @@ export const API_ENDPOINTS = {
   },
   PROJECTS: {
     GET_ALL: '/project',
+      GET_BY_ID: '/project/{id}',
     UPDATE: (id: number) => `/project/${id}`
   }
 };
