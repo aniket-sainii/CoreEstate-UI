@@ -37,7 +37,7 @@ ngOnInit(): void {
 
 addBuilding() {}
 removeBuilding(buildingId: number) {}
-save(){}
+updateProject(){}
 
 
 }
