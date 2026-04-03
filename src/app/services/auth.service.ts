@@ -18,7 +18,7 @@ interface RegisterResponse {
 export class AuthService {
   private apiUrl = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}${API_ENDPOINTS.AUTH.LOGIN}`, { email, password }).pipe(
@@ -33,7 +33,7 @@ export class AuthService {
     return this.http.post<RegisterResponse>(`${this.apiUrl}${API_ENDPOINTS.AUTH.REGISTER}`, { email, password }).pipe(
       tap(res => {
         if (res && res.message) {
-         
+
         }
       })
     );
@@ -48,7 +48,17 @@ export class AuthService {
     return localStorage.getItem('jwt_token');
   }
 
+  isTokenExpired(token: string): boolean {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return Date.now() >= payload.exp * 1000;
+  }
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    return !!token &&
+      token !== 'undefined' &&
+      token !== 'null' &&
+      token.trim() !== '' &&
+      !this.isTokenExpired(token);
+
   }
 }
