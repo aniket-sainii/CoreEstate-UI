@@ -1,29 +1,36 @@
 <div class="home-container">
-  <h2>Welcome to Home</h2>
-  <button (click)="logout()" class="logout-btn">Logout</button>
+  <div class="header">
+    <h2>Projects</h2>
+    <button (click)="logout()" class="btn btn-danger">Logout</button>
+  </div>
+
   <div class="table-container">
 
-    <table>
+    <table class="table table-striped">
       <thead>
         <tr>
           <th>Id</th>
           <th>Name</th>
           <th>Description</th>
           <th>Edit</th>
+          <th>Workflow</th>
         </tr>
       </thead>
-      
+
       <tbody *ngIf="projects.length > 0">
-        
+
         <tr *ngFor="let project of projects">
           <td>{{ project.id }}</td>
           <td>{{ project.name }}</td>
           <td>{{ project.description }}</td>
           <td>
-            <button (click)="editProject(project)">Edit</button>
+            <button class="btn btn-primary" (click)="editProject(project)">Edit</button>
+          </td>
+          <td>
+            <button class="btn btn-primary" (click)="openBuilding(project)">Workflow</button>
           </td>
         </tr>
-        
+
         <!-- @for (project of projects; track project.id) {
         <tr>
           <td>{{ project.id }}</td>

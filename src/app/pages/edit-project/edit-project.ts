@@ -27,10 +27,10 @@ export class EditProject implements OnInit {
 
   ngOnInit(): void {
     this.projectId = Number(this.route.snapshot.paramMap.get('id'));
-
     this.projectService.getProjetById(this.projectId).subscribe({
       next: project => {
         this.project = <projectBuilding>(project);
+
       },
       error: err => console.error('Error fetching project:', err)
     });

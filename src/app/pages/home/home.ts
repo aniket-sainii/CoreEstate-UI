@@ -3,7 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.model';
 import { CommonModule } from '@angular/common';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -39,5 +39,8 @@ export class Home implements OnInit {
 
   editProject(project: Project): void {
     this.router.navigate(['/edit-project', project.id]);
+  }
+  openBuilding(project: Project): void {
+    this.router.navigate(['/building', project.id]);
   }
 }

@@ -1,0 +1,31 @@
+<div class="form container-md">
+    <h3>Select building in {{project.name}}</h3>
+    <select class="form-select" [(ngModel)]="selectedBuilding" (change)="onBuildingSelect()" name="building">
+        <option value="">Select Building</option>
+        <option *ngFor="let building of project.buildings" [ngValue]="building">
+            {{ building.name }}
+        </option>
+
+    </select>
+</div>
+<div *ngIf="selectedBuilding" class="container-md">
+    <table class="table table-bordered table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Floor No.</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let flat of flats">
+                <td>{{flat.id}}</td>
+                <td>{{flat.floorNo}}</td>
+                <td>{{flat.name}}</td>
+            </tr>
+            <tr *ngIf="flats.length === 0">
+                <td colspan="4" class="text-center">No flats found for this building.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -8,5 +8,8 @@ export const API_ENDPOINTS = {
     GET_ALL: '/project',
     GET_BY_ID: '/project/{id}',
     UPDATE: (id: number) => `/project/full-update/${id}`
+  },
+  FLATS: {
+    GET_BY_BUILDING_ID: (buildingId: number) => `/flat/GetFlatByBuilding/${buildingId}`
   }
 };
