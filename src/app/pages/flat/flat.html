@@ -1,0 +1,109 @@
+<div class="container" *ngIf="form">
+
+    <h2>Add / Edit Flat</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <!-- BASIC DETAILS -->
+        <div class="form-grid">
+
+            <div>
+                <label>Name *</label>
+                <input formControlName="name" />
+                <div class="error" *ngIf="form.get('name')?.touched && form.get('name')?.invalid">
+                    Name is required
+                </div>
+            </div>
+
+            <div>
+                <label>Building *</label>
+                <select formControlName="buildingId">
+                    <option value="">Select Building</option>
+                    <!-- loop buildings -->
+                </select>
+            </div>
+
+            <div>
+                <label>Configuration *</label>
+                <select formControlName="configurationId">
+                    <option value="">Select</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Facing *</label>
+                <select formControlName="facingId">
+                    <option value="">Select</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Status *</label>
+                <select formControlName="statusId">
+                    <option value="">Select</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Floor No *</label>
+                <input type="number" formControlName="floorNo" />
+            </div>
+
+            <div>
+                <label>Carpet Area *</label>
+                <input type="number" formControlName="carpetArea" />
+            </div>
+
+            <div>
+                <label>Sale Area *</label>
+                <input type="number" formControlName="saleArea" />
+            </div>
+
+        </div>
+
+        <!-- FLAT COSTS -->
+        <h3>Flat Costs</h3>
+
+        <div formArrayName="flatCosts">
+
+            <div class="cost-row" *ngFor="let cost of flatCosts.controls; let i = index" [formGroupName]="i">
+
+                <div>
+                    <label>Title *</label>
+                    <input formControlName="title" />
+                </div>
+
+                <div>
+                    <label>Amount</label>
+                    <input type="number" formControlName="amount" />
+                </div>
+
+                <div>
+                    <label>Cost Type *</label>
+                    <select formControlName="costTypeId">
+                        <option value="">Select</option>
+                        <!-- loop cost types -->
+                    </select>
+                </div>
+
+                <div class="actions">
+                    <button type="button" (click)="removeCost(i)">✕</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ADD COST BUTTON -->
+        <div class="actions">
+            <button type="button" (click)="addCost()">+ Add Cost</button>
+        </div>
+
+        <!-- SUBMIT -->
+        <button type="submit" class="save-btn">
+            Save Flat
+        </button>
+
+    </form>
+
+</div>

@@ -1,4 +1,4 @@
-export interface Flat {
+export interface FlatList {
     id: number;
     floorNo: number;
     name: string;

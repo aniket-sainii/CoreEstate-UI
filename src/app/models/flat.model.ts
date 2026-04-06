@@ -1,14 +1,22 @@
 export interface Flat {
-    id: number;
+    id?: number;
     name: string;
+
     buildingId: number;
     configurationId: number;
     facingId: number;
     statusId: number;
+
     floorNo: number;
     carpetArea: number;
     saleArea: number;
-    createdAt: string;
-    configuration?: any;
-    facing?: any;
+
+    flatCosts: FlatCost[];
+}
+
+export interface FlatCost {
+    id?: number;
+    title: string;
+    amount?: number;
+    costTypeId: number;
 }

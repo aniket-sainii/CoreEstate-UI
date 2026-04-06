@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Flat } from '../../models/flatList.model';
+import { FlatList } from '../../models/flatList.model';
 
 @Component({
   selector: 'app-building',
@@ -17,7 +17,7 @@ export class Building {
   projectId!: number;
   project!: projectBuilding;
   selectedBuilding: any;
-  flats: Flat[] = [];
+  flats: FlatList[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -28,7 +28,7 @@ export class Building {
   ngOnInit(): void {
     this.projectId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.projectService.getProjetById(this.projectId).subscribe({
+    this.projectService.getProjectById(this.projectId).subscribe({
       next: project => {
         this.project = <projectBuilding>(project);
       },

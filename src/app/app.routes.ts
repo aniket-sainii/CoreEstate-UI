@@ -5,6 +5,7 @@ import { AuthGuard } from './services/auth.guard';
 import { Register } from './pages/register/register';
 import { EditProject } from './pages/edit-project/edit-project';
 import { Building } from './pages/building/building';
+import { FlatComponent } from './pages/flat/flat';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -12,5 +13,6 @@ export const routes: Routes = [
   { path: '', component: Home, canActivate: [AuthGuard] },
   { path: 'edit-project/:id', component: EditProject, canActivate: [AuthGuard] },
   { path: 'building/:id', component: Building, canActivate: [AuthGuard] },
+  { path: 'flat', component: FlatComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];

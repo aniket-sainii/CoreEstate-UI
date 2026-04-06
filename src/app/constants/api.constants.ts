@@ -10,6 +10,7 @@ export const API_ENDPOINTS = {
     UPDATE: (id: number) => `/project/full-update/${id}`
   },
   FLATS: {
-    GET_BY_BUILDING_ID: (buildingId: number) => `/flat/GetFlatByBuilding/${buildingId}`
+    GET_BY_BUILDING_ID: (buildingId: number) => `/flat/GetFlatByBuilding/${buildingId}`,
+    CREATE: '/flat'
   }
 };

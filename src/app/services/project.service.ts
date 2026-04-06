@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 import { API_ENDPOINTS } from '../constants/api.constants';
 import { environment } from '../../environments/environment';
 import { projectBuilding } from '../models/projectList.model';
-import { Flat } from '../models/flatList.model';
+import { FlatList } from '../models/flatList.model';
+import { Flat } from '../models/flat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,11 @@ export class ProjectService {
     return this.http.put<projectBuilding>(`${this.apiUrl}${API_ENDPOINTS.PROJECTS.UPDATE(id)}`, project);
   }
 
-  getFlatsByBuildingId(buildingId: number): Observable<Flat[]> {
-    return this.http.get<Flat[]>(`${this.apiUrl}${API_ENDPOINTS.FLATS.GET_BY_BUILDING_ID(buildingId)}`);
+  getFlatsByBuildingId(buildingId: number): Observable<FlatList[]> {
+    return this.http.get<FlatList[]>(`${this.apiUrl}${API_ENDPOINTS.FLATS.GET_BY_BUILDING_ID(buildingId)}`);
+  }
+
+  createFlat(flat: Flat): Observable<Flat> {
+    return this.http.post<Flat>(`${this.apiUrl}${API_ENDPOINTS.FLATS.CREATE}`, flat);
   }
 }
