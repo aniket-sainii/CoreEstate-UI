@@ -1,82 +1,96 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
-import { Project } from '../../models/project.model';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { projectBuilding } from '../../models/projectList.model';
 
 @Component({
   selector: 'app-edit-project',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './edit-project.html',
   styleUrl: './edit-project.css',
 })
 export class EditProject implements OnInit {
 
   projectId!: number;
-  project!: projectBuilding;
+  projectForm!: FormGroup;
+  isLoaded = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private fb: FormBuilder
   ) { }
-
-
 
   ngOnInit(): void {
     this.projectId = Number(this.route.snapshot.paramMap.get('id'));
-    this.projectService.getProjetById(this.projectId).subscribe({
-      next: project => {
-        this.project = <projectBuilding>(project);
 
+    this.projectForm = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      buildings: this.fb.array([])
+    });
+
+    this.projectService.getProjectById(this.projectId).subscribe({
+      next: project => {
+        const proj = project as projectBuilding;
+        this.projectForm.patchValue({
+          name: proj.name,
+          description: proj.description
+        });
+
+        if (proj.buildings) {
+          proj.buildings.forEach(b => {
+            this.buildings.push(this.fb.group({
+              id: [b.id],
+              name: [b.name, Validators.required],
+              description: [b.description, Validators.required]
+            }));
+          });
+        }
+        this.isLoaded = true;
       },
       error: err => console.error('Error fetching project:', err)
     });
+  }
 
+  get buildings(): FormArray {
+    return this.projectForm.get('buildings') as FormArray;
   }
 
   addBuilding() {
-    if (!this.project.buildings) {
-      this.project.buildings = [];
-    }
-    // Generate a temporary negative ID so new instances can be individually selected for removal
-    const tempId = -(new Date().getTime());
-    this.project.buildings.push({ id: tempId, name: '', description: '' });
+    this.buildings.push(this.fb.group({
+      id: [0],
+      name: ['', Validators.required],
+      description: ['', Validators.required]
+    }));
   }
 
-  removeBuilding(buildingId: number) {
-    if (this.project.buildings) {
-      this.project.buildings = this.project.buildings.filter(b => b.id !== buildingId);
-    }
+  removeBuilding(index: number) {
+    this.buildings.removeAt(index);
   }
 
   updateProject() {
-    if (this.project) {
-      // Reset temp negative IDs assigned above back to 0 before sending to API
+    if (this.projectForm.valid) {
       const projectPayload = {
-        ...this.project,
-        buildings: this.project.buildings?.map(b => ({
-          ...b,
-          id: b.id < 0 ? 0 : b.id
-        }))
+        id: this.projectId,
+        ...this.projectForm.value
       };
 
       this.projectService.updateProject(this.projectId, projectPayload).subscribe({
         next: () => {
           this.router.navigate(['/']);
           alert('Project updated successfully!');
-
         },
         error: (err) => {
           console.error('Error updating project:', err);
           alert('Failed to update project.');
         }
       });
+    } else {
+      this.projectForm.markAllAsTouched();
     }
   }
-
-
 }
-

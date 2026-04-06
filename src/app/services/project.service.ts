@@ -24,7 +24,7 @@ export class ProjectService {
 
   }
 
-  getProjetById(id: number): Observable<projectBuilding> {
+  getProjectById(id: number): Observable<projectBuilding> {
     return this.http.get<projectBuilding>(`${this.apiUrl}${API_ENDPOINTS.PROJECTS.GET_BY_ID.replace('{id}', id.toString())}`);
   }
 

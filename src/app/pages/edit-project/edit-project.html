@@ -1,40 +1,56 @@
-<div class="container" *ngIf="project">
+<div class="container" *ngIf="isLoaded">
 
   <h2>Edit Project</h2>
 
-  <!-- Project -->
-  <div class="form">
-    <label>Name</label>
-    <input [(ngModel)]="project.name" />
-
-    <label>Description</label>
-    <textarea [(ngModel)]="project.description"></textarea>
-  </div>
-
-  <!-- Buildings -->
-  <h3>Buildings</h3>
-
-  <div class="building-row" *ngFor="let building of project.buildings">
-
-    <div>
+  <form [formGroup]="projectForm" (ngSubmit)="updateProject()">
+    <!-- Project -->
+    <div class="form">
       <label>Name</label>
-      <input [(ngModel)]="building.name" />
-    </div>
+      <input formControlName="name" />
+      <div class="error" *ngIf="projectForm.get('name')?.invalid && projectForm.get('name')?.touched">
+        Name is required.
+      </div>
 
-    <div>
       <label>Description</label>
-      <textarea [(ngModel)]="building.description"></textarea>
+      <textarea formControlName="description"></textarea>
+      <div class="error" *ngIf="projectForm.get('description')?.invalid && projectForm.get('description')?.touched">
+        Description is required.
+      </div>
     </div>
 
-    <div class="actions">
-      <button (click)="addBuilding()">+</button>
-      <button (click)="removeBuilding(building.id)">✕</button>
+    <!-- Buildings -->
+    <h3>Buildings</h3>
+
+    <div formArrayName="buildings">
+      <div class="building-row" *ngFor="let buildingCtrl of buildings.controls; let i = index" [formGroupName]="i">
+        <div style="display: flex; flex-direction: column;">
+          <label>Name</label>
+          <input formControlName="name" />
+          <div class="error" *ngIf="buildingCtrl.get('name')?.invalid && buildingCtrl.get('name')?.touched">
+            Required.
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column;">
+          <label>Description</label>
+          <textarea formControlName="description"></textarea>
+          <div class="error" *ngIf="buildingCtrl.get('description')?.invalid && buildingCtrl.get('description')?.touched">
+            Required.
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" (click)="addBuilding()">+</button>
+          <button type="button" (click)="removeBuilding(i)">✕</button>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="buildings.length === 0" class="actions" style="margin-bottom: 20px;">
+      <button type="button" (click)="addBuilding()">Add Building</button>
     </div>
 
-  </div>
-
-
-
-  <button class="save-btn" (click)="updateProject()">Update Project</button>
+    <button type="submit" class="save-btn">Update Project</button>
+  </form>
 
 </div>
