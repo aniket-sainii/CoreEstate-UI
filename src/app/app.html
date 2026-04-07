@@ -1,22 +1,61 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-  <div class="container">
-    <a class="navbar-brand fw-bold" routerLink="/">
-      <i class="bi bi-buildings me-2"></i>CoreEstate
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
+<!-- TOP BAR (mobile only) -->
+<nav class="navbar navbar-dark bg-dark d-lg-none">
+  <div class="container-fluid">
+    <button class="btn btn-outline-light" type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#sidebar">
+      ☰ Menu
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/" routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: true}">Home</a>
-        </li>
-      </ul>
-    </div>
+    <span class="navbar-brand">CoreEstate</span>
   </div>
 </nav>
 
-<div class="container pb-5">
-  <router-outlet />
+<div class="d-flex">
+
+  <!-- SIDEBAR -->
+  <div class="offcanvas-lg offcanvas-start bg-dark text-white"
+       tabindex="-1"
+       id="sidebar">
+
+    <div class="offcanvas-header d-lg-none">
+      <h5 class="offcanvas-title">CoreEstate</h5>
+      <button type="button" class="btn-close btn-close-white"
+              data-bs-dismiss="offcanvas"></button>
+    </div>
+  <div class="d-flex justify-content-between align-items-center m-4">
+        <span class="fw-bold">
+          <i class="bi bi-buildings me-2"></i>CoreEstate
+        </span>
+        </div>
+        
+    <div class="offcanvas-body p-3 vh-100">
+
+      
+
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link text-white"
+             routerLink="/Home"
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}">
+            Home
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white" routerLink="/projects">
+            Settings
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="flex-grow-1 p-4">
+    <router-outlet></router-outlet>
+  </div>
+
 </div>
