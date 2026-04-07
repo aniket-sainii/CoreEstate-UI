@@ -1,20 +1,46 @@
-<div class="register-container">
-  <h2>Register</h2>
-  <form (ngSubmit)="submit()">
-    <div>
-      <label for="email">Email</label>
-      <input id="email" type="email" [(ngModel)]="email" name="email" required />
-    </div>
+<div class="row justify-content-center align-items-center min-vh-100">
+  <div class="col-md-5">
+    <div class="card shadow-lg border-0">
+      <div class="card-body p-5">
+        <div class="text-center mb-4">
+          <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+            <i class="bi bi-person-plus text-primary fs-2"></i>
+          </div>
+          <h2 class="fw-bold">Create Account</h2>
+          <p class="text-muted">Join CoreEstate and manage your projects</p>
+        </div>
 
-    <div>
-      <label for="password">Password</label>
-      <input id="password" type="password" [(ngModel)]="password" name="password" required />
+        <form (ngSubmit)="submit()">
+          <div class="form-floating mb-3">
+            <input id="email" type="email" class="form-control" [(ngModel)]="email" name="email" placeholder="name@example.com" required />
+            <label for="email">Email address</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input id="password" type="password" class="form-control" [(ngModel)]="password" name="password" placeholder="Password" required />
+            <label for="password">Password</label>
+          </div>
+
+          @if(error){
+            <div class="alert alert-danger py-2 mb-3">
+               <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+            </div>
+          }
+
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg" [disabled]="loading">
+               <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+               Register
+            </button>
+          </div>
+        </form>
+
+        <div class="text-center mt-4">
+          <p class="mb-0 text-muted">Already have an account?</p>
+          <a class="btn btn-link link-primary fw-semibold" [routerLink]="['/login']">Sign In Instead</a>
+        </div>
+      </div>
     </div>
-    @if(error){
-      <div style="color: red">{{ error }}</div>
-    }
-    <button type="submit" [disabled]="loading">Register</button>
-  </form>
-  <button type="submit" [routerLink]="['/login']">Already have an account? Login</button>
+  </div>
 </div>
 

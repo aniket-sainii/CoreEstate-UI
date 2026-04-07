@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Flat } from '../../models/flat.model';
 import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.model';
@@ -10,7 +10,7 @@ import { projectBuilding, Building } from '../../models/projectList.model';
 
 @Component({
   selector: 'app-flat',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './flat.html',
   styleUrls: ['./flat.css']
 })

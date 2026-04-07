@@ -1,105 +1,140 @@
-<div class="container" *ngIf="form">
-
-    <h2>Add / Edit Flat</h2>
-    <p *ngIf="buildingId">Adding flat to Building ID: <strong>{{buildingId}}</strong></p>
-
-    <form [formGroup]="form" (ngSubmit)="submit()">
-
-        <!-- BASIC DETAILS -->
-        <div class="form-grid">
-
+<div class="row justify-content-center" *ngIf="form">
+    <div class="col-lg-10">
+        <div class="page-header">
             <div>
-                <label>Name *</label>
-                <input formControlName="name" placeholder="Flat Name (e.g. 101)" />
-
+                <h2 class="fw-bold mb-0">Add / Edit Flat</h2>
+                <p class="text-muted mb-0" *ngIf="buildingId">
+                    <i class="bi bi-building me-1"></i>Building ID: <span
+                        class="badge bg-secondary">{{buildingId}}</span>
+                    <i class="bi bi-building me-1"></i>Project ID: <span class="badge bg-secondary">{{projectId}}</span>
+                </p>
             </div>
-
-            <div>
-                <label>Configuration *</label>
-                <select formControlName="configurationId">
-                    <option [ngValue]="null">Select</option>
-                    <option *ngFor="let c of configurations" [ngValue]="c.id">{{ c.name }}</option>
-                </select>
-                <span class="text-muted small" *ngIf="form.get('configurationId')?.value">
-                    (ID: {{form.get('configurationId')?.value}})
-                </span>
-            </div>
-
-            <div>
-                <label>Facing *</label>
-                <select formControlName="facingId">
-                    <option [ngValue]="null">Select</option>
-                    <option *ngFor="let f of facings" [ngValue]="f.id">{{ f.name }}</option>
-                </select>
-                <span class="text-muted small" *ngIf="form.get('facingId')?.value">
-                    (ID: {{form.get('facingId')?.value}})
-                </span>
-            </div>
-
-
-            <div>
-                <label>Floor No *</label>
-                <input type="number" formControlName="floorNo" />
-            </div>
-
-            <div>
-                <label>Carpet Area *</label>
-                <input type="number" formControlName="carpetArea" />
-            </div>
-
-            <div>
-                <label>Sale Area *</label>
-                <input type="number" formControlName="saleArea" />
-            </div>
-
+            <a routerLink="/building/{{projectId}}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Building
+            </a>
         </div>
 
-        <!-- FLAT COSTS -->
-        <h3>Flat Costs</h3>
-
-        <div formArrayName="flatCosts">
-
-            <div class="cost-row" *ngFor="let cost of flatCosts.controls; let i = index" [formGroupName]="i">
-
-                <div>
-                    <label>Title *</label>
-                    <input formControlName="title" />
+        <form [formGroup]="form" (ngSubmit)="submit()">
+            <!-- BASIC DETAILS -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0 fw-bold text-primary">
+                        <i class="bi bi-info-circle me-2"></i>Basic Details
+                    </h5>
                 </div>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Flat Name / No. <span class="text-danger">*</span></label>
+                            <input formControlName="name" class="form-control" placeholder="e.g. 101" />
+                        </div>
 
-                <div>
-                    <label>Amount</label>
-                    <input type="number" formControlName="amount" />
+                        <div class="col-md-3">
+                            <label class="form-label">Configuration <span class="text-danger">*</span></label>
+                            <select formControlName="configurationId" class="form-select">
+                                <option [ngValue]="null">Select</option>
+                                <option *ngFor="let c of configurations" [ngValue]="c.id">{{ c.name }}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Facing <span class="text-danger">*</span></label>
+                            <select formControlName="facingId" class="form-select">
+                                <option [ngValue]="null">Select</option>
+                                <option *ngFor="let f of facings" [ngValue]="f.id">{{ f.name }}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Floor No. <span class="text-danger">*</span></label>
+                            <input type="number" formControlName="floorNo" class="form-control" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Carpet Area (sq.ft) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="number" formControlName="carpetArea" class="form-control" />
+                                <span class="input-group-text">sq.ft</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Sale Area (sq.ft) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="number" formControlName="saleArea" class="form-control" />
+                                <span class="input-group-text">sq.ft</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div>
-                    <label>Cost Type *</label>
-                    <select formControlName="costTypeId">
-                        <option [ngValue]="null">Select</option>
-                        <option *ngFor="let ct of costTypes" [ngValue]="ct.id">{{ ct.name }}</option>
-                    </select>
-                    <span class="text-muted small" *ngIf="cost.get('costTypeId')?.value">
-                        (ID: {{cost.get('costTypeId')?.value}})
-                    </span>
-                </div>
-
-                <div class="actions">
-                    <button type="button" (click)="removeCost(i)">✕</button>
-                </div>
-
             </div>
 
-        </div>
+            <!-- FLAT COSTS -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0 fw-bold text-primary">
+                        <i class="bi bi-currency-dollar me-2"></i>Flat Costs
+                    </h5>
+                    <button type="button" class="btn btn-sm btn-outline-primary" (click)="addCost()">
+                        <i class="bi bi-plus-lg me-1"></i>Add Cost Row
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-4" style="width: 35%;">Title <span class="text-danger">*</span></th>
+                                    <th style="width: 25%;">Amount</th>
+                                    <th style="width: 30%;">Cost Type <span class="text-danger">*</span></th>
+                                    <th class="text-center" style="width: 10%;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody formArrayName="flatCosts">
+                                <tr *ngFor="let cost of flatCosts.controls; let i = index" [formGroupName]="i">
+                                    <td class="ps-4">
+                                        <input formControlName="title" class="form-control form-control-sm"
+                                            placeholder="e.g. Base Price" />
+                                    </td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">₹</span>
+                                            <input type="number" formControlName="amount" class="form-control" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select formControlName="costTypeId" class="form-select form-select-sm">
+                                            <option [ngValue]="null">Select Type</option>
+                                            <option *ngFor="let ct of costTypes" [ngValue]="ct.id">{{ ct.name }}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-outline-danger btn-sm border-0"
+                                            (click)="removeCost(i)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="flatCosts.length === 0">
+                                    <td colspan="4" class="text-center py-4 text-muted">
+                                        No costs added yet. Click "+ Add Cost Row" to begin.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-        <!-- ADD COST BUTTON -->
-        <div class="actions">
-            <button type="button" (click)="addCost()">+ Add Cost</button>
-        </div>
-
-        <!-- SUBMIT -->
-        <button type="submit" class="save-btn">
-            Save Flat
-        </button>
-
-    </form>
-
+            <!-- FOOTER ACTIONS -->
+            <div class="d-flex justify-content-end gap-3 mb-5">
+                <button type="button" routerLink="/building/{{projectId}}"
+                    class="btn btn-light btn-lg px-4">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
+                    <i class="bi bi-check-circle me-2"></i>Save Flat Details
+                </button>
+            </div>
+        </form>
+    </div>
 </div>

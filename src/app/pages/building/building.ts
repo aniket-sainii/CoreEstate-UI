@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { projectBuilding } from '../../models/projectList.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ import { FlatList } from '../../models/flatList.model';
 
 @Component({
   selector: 'app-building',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './building.html',
   styleUrl: './building.css',
 })

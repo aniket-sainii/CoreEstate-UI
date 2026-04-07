@@ -1,47 +1,78 @@
-<div class="home-container">
-  <div class="header">
-    <h2>Projects</h2>
-    <button (click)="logout()" class="btn btn-danger">Logout</button>
+<div class="page-header mt-4">
+  <div class="d-flex align-items-center">
+    <div class="bg-primary bg-opacity-10 p-3 rounded-3 me-3 text-primary">
+      <i class="bi bi-folder-fill fs-2"></i>
+    </div>
+    <div>
+      <h2 class="fw-bold mb-0">Project Overview</h2>
+      <p class="text-muted mb-0">Manage and monitor all your real estate projects</p>
+    </div>
   </div>
-
-  <div class="table-container">
-
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Edit</th>
-          <th>Workflow</th>
-        </tr>
-      </thead>
-
-      <tbody *ngIf="projects.length > 0">
-
-        <tr *ngFor="let project of projects">
-          <td>{{ project.id }}</td>
-          <td>{{ project.name }}</td>
-          <td>{{ project.description }}</td>
-          <td>
-            <button class="btn btn-primary" (click)="editProject(project)">Edit</button>
-          </td>
-          <td>
-            <button class="btn btn-primary" (click)="openBuilding(project)">Workflow</button>
-          </td>
-        </tr>
-
-        <!-- @for (project of projects; track project.id) {
-        <tr>
-          <td>{{ project.id }}</td>
-          <td>{{ project.name }}</td>
-          <td>{{ project.description }}</td>
-          <td><button (click)="editProject(project)" class="edit-btn">Edit</button></td>
-        </tr>
-        } -->
-      </tbody>
-    </table>
-
+  <div class="d-flex gap-2">
+    <!-- Logout logic is handled in component -->
+    <button (click)="logout()" class="btn btn-outline-danger d-flex align-items-center">
+      <i class="bi bi-box-arrow-right me-2"></i>Logout
+    </button>
   </div>
+</div>
 
+<div class="card shadow-sm border-0 mb-5">
+  <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+    <h5 class="card-title fw-bold mb-0 text-dark">Active Projects</h5>
+    <div class="input-group input-group-sm w-25">
+       <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+       <input type="text" class="form-control bg-light border-start-0" placeholder="Search projects...">
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="ps-4 fw-semibold text-muted text-uppercase small" style="width: 10%;">ID</th>
+            <th class="fw-semibold text-muted text-uppercase small" style="width: 25%;">Project Name</th>
+            <th class="fw-semibold text-muted text-uppercase small" style="width: 35%;">Description</th>
+            <th class="text-end pe-4 fw-semibold text-muted text-uppercase small" style="width: 30%;">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody *ngIf="projects.length > 0">
+          <tr *ngFor="let project of projects">
+            <td class="ps-4">
+              <span class="badge bg-light text-dark border p-2">#{{ project.id }}</span>
+            </td>
+            <td>
+              <div class="fw-bold text-dark">{{ project.name }}</div>
+            </td>
+            <td>
+              <span class="text-muted text-truncate d-inline-block" style="max-width: 350px;">
+                {{ project.description || 'No description provided' }}
+              </span>
+            </td>
+            <td class="text-end pe-4">
+              <div class="btn-group shadow-sm">
+                <button class="btn btn-white btn-sm" (click)="editProject(project)" title="Edit Details">
+                  <i class="bi bi-pencil-square text-primary me-1"></i> Edit
+                </button>
+                <button class="btn btn-white btn-sm" (click)="openBuilding(project)" title="Manage Structures">
+                   <i class="bi bi-diagram-3 text-success me-1"></i> Workflow
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        
+        <tbody *ngIf="projects.length === 0">
+          <tr>
+            <td colspan="4" class="text-center py-5">
+              <div class="text-muted">
+                <i class="bi bi-folder-x fs-1 opacity-25"></i>
+                <p class="mt-3">No projects found. Create your first project to get started.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
