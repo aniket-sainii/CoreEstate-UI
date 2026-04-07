@@ -51,6 +51,9 @@ export class Building {
       this.flats = [];
     }
   }
-
-
+  addFlat() {
+    if (this.selectedBuilding && this.selectedBuilding.id) {
+      this.router.navigate(['/flat'], { queryParams: { buildingId: this.selectedBuilding.id, projectId: this.projectId } });
+    }
+  }
 }

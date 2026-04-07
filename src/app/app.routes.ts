@@ -14,5 +14,6 @@ export const routes: Routes = [
   { path: 'edit-project/:id', component: EditProject, canActivate: [AuthGuard] },
   { path: 'building/:id', component: Building, canActivate: [AuthGuard] },
   { path: 'flat', component: FlatComponent, canActivate: [AuthGuard] },
+  { path: 'flat/:id', component: FlatComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];

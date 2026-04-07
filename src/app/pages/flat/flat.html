@@ -1,6 +1,7 @@
 <div class="container" *ngIf="form">
 
     <h2>Add / Edit Flat</h2>
+    <p *ngIf="buildingId">Adding flat to Building ID: <strong>{{buildingId}}</strong></p>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
 
@@ -9,40 +10,32 @@
 
             <div>
                 <label>Name *</label>
-                <input formControlName="name" />
-                <div class="error" *ngIf="form.get('name')?.touched && form.get('name')?.invalid">
-                    Name is required
-                </div>
-            </div>
+                <input formControlName="name" placeholder="Flat Name (e.g. 101)" />
 
-            <div>
-                <label>Building *</label>
-                <select formControlName="buildingId">
-                    <option value="">Select Building</option>
-                    <!-- loop buildings -->
-                </select>
             </div>
 
             <div>
                 <label>Configuration *</label>
                 <select formControlName="configurationId">
-                    <option value="">Select</option>
+                    <option [ngValue]="null">Select</option>
+                    <option *ngFor="let c of configurations" [ngValue]="c.id">{{ c.name }}</option>
                 </select>
+                <span class="text-muted small" *ngIf="form.get('configurationId')?.value">
+                    (ID: {{form.get('configurationId')?.value}})
+                </span>
             </div>
 
             <div>
                 <label>Facing *</label>
                 <select formControlName="facingId">
-                    <option value="">Select</option>
+                    <option [ngValue]="null">Select</option>
+                    <option *ngFor="let f of facings" [ngValue]="f.id">{{ f.name }}</option>
                 </select>
+                <span class="text-muted small" *ngIf="form.get('facingId')?.value">
+                    (ID: {{form.get('facingId')?.value}})
+                </span>
             </div>
 
-            <div>
-                <label>Status *</label>
-                <select formControlName="statusId">
-                    <option value="">Select</option>
-                </select>
-            </div>
 
             <div>
                 <label>Floor No *</label>
@@ -81,9 +74,12 @@
                 <div>
                     <label>Cost Type *</label>
                     <select formControlName="costTypeId">
-                        <option value="">Select</option>
-                        <!-- loop cost types -->
+                        <option [ngValue]="null">Select</option>
+                        <option *ngFor="let ct of costTypes" [ngValue]="ct.id">{{ ct.name }}</option>
                     </select>
+                    <span class="text-muted small" *ngIf="cost.get('costTypeId')?.value">
+                        (ID: {{cost.get('costTypeId')?.value}})
+                    </span>
                 </div>
 
                 <div class="actions">

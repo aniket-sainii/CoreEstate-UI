@@ -40,4 +40,8 @@ export class ProjectService {
   createFlat(flat: Flat): Observable<Flat> {
     return this.http.post<Flat>(`${this.apiUrl}${API_ENDPOINTS.FLATS.CREATE}`, flat);
   }
+
+  getMasterData(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}${API_ENDPOINTS.GRAPHQL.GET_MASTER_DATA}`);
+  }
 }
