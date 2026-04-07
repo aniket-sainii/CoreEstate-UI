@@ -11,7 +11,9 @@ export const API_ENDPOINTS = {
   },
   FLATS: {
     GET_BY_BUILDING_ID: (buildingId: number) => `/flat/GetFlatByBuilding/${buildingId}`,
-    CREATE: '/flat'
+    GET_BY_ID: (id: number) => `/flat/${id}`,
+    CREATE: '/flat',
+    UPDATE: '/flat'
   },
   GRAPHQL: {
     GET_MASTER_DATA: '/Graphql'

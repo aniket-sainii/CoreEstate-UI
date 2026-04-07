@@ -53,7 +53,13 @@ export class Building {
   }
   addFlat() {
     if (this.selectedBuilding && this.selectedBuilding.id) {
-      this.router.navigate(['/flat'], { queryParams: { buildingId: this.selectedBuilding.id, projectId: this.projectId } });
+      this.router.navigate(['/project', this.projectId, 'building', this.selectedBuilding.id, 'flats', 'new']);
+    }
+  }
+
+  editFlat(flatId: number) {
+    if (this.selectedBuilding && this.selectedBuilding.id) {
+      this.router.navigate(['/project', this.projectId, 'building', this.selectedBuilding.id, 'flats', 'edit', flatId]);
     }
   }
 }

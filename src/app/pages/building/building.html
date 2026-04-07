@@ -17,6 +17,7 @@
                 <th>Id</th>
                 <th>Floor No.</th>
                 <th>Name</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +25,9 @@
                 <td>{{flat.id}}</td>
                 <td>{{flat.floorNo}}</td>
                 <td>{{flat.name}}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary" (click)="editFlat(flat.id)">Edit</button>
+                </td>
             </tr>
             <tr *ngIf="flats.length === 0">
                 <td colspan="4" class="text-center">No flats found for this building.</td>

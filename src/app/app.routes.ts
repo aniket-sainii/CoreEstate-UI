@@ -13,6 +13,8 @@ export const routes: Routes = [
   { path: '', component: Home, canActivate: [AuthGuard] },
   { path: 'edit-project/:id', component: EditProject, canActivate: [AuthGuard] },
   { path: 'building/:id', component: Building, canActivate: [AuthGuard] },
+  { path: 'project/:projectId/building/:buildingId/flats/new', component: FlatComponent, canActivate: [AuthGuard] },
+  { path: 'project/:projectId/building/:buildingId/flats/edit/:flatId', component: FlatComponent, canActivate: [AuthGuard] },
   { path: 'flat', component: FlatComponent, canActivate: [AuthGuard] },
   { path: 'flat/:id', component: FlatComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }

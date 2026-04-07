@@ -41,6 +41,14 @@ export class ProjectService {
     return this.http.post<Flat>(`${this.apiUrl}${API_ENDPOINTS.FLATS.CREATE}`, flat);
   }
 
+  updateFlat(id: number, flat: Flat): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}${API_ENDPOINTS.FLATS.UPDATE}?id=${id}`, flat);
+  }
+
+  getFlatById(id: number): Observable<Flat> {
+    return this.http.get<Flat>(`${this.apiUrl}${API_ENDPOINTS.FLATS.GET_BY_ID(id)}`);
+  }
+
   getMasterData(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}${API_ENDPOINTS.GRAPHQL.GET_MASTER_DATA}`);
   }

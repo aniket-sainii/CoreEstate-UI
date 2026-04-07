@@ -20,6 +20,8 @@ export class FlatComponent implements OnInit {
   isSubmitting = false;
   buildingId: number | null = null;
   projectId: number | null = null;
+  flatId: number | null = null;
+  isEditMode = false;
 
   // Dropdown Data
   projects: Project[] = [];
@@ -36,18 +38,46 @@ export class FlatComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.buildingId = params['buildingId'] ? Number(params['buildingId']) : null;
-      this.projectId = params['projectId'] ? Number(params['projectId']) : null;
-      this.initForm();
-    });
-    this.addCost(); // optional: start with one row
+    // Read from route parameters
+    const projectIdParam = this.route.snapshot.paramMap.get('projectId');
+    const buildingIdParam = this.route.snapshot.paramMap.get('buildingId');
+    const flatIdParam = this.route.snapshot.paramMap.get('flatId');
+    
+    this.projectId = projectIdParam ? Number(projectIdParam) : null;
+    this.buildingId = buildingIdParam ? Number(buildingIdParam) : null;
+    this.flatId = flatIdParam ? Number(flatIdParam) : null;
+
+    if (this.flatId) {
+      this.isEditMode = true;
+    }
+
+    // Optional: Keep queryParams for fallback
+    if (!this.buildingId || !this.projectId) {
+      this.route.queryParams.subscribe(params => {
+        if (!this.buildingId) this.buildingId = params['buildingId'] ? Number(params['buildingId']) : null;
+        if (!this.projectId) this.projectId = params['projectId'] ? Number(params['projectId']) : null;
+        this.completeInit();
+      });
+    } else {
+      this.completeInit();
+    }
+  }
+
+  private completeInit(): void {
+    this.initForm();
     this.loadDropdownData();
+
+    if (this.isEditMode && this.flatId) {
+      this.loadFlatData(this.flatId);
+    } else {
+      this.addCost(); // optional: start with one row
+    }
   }
 
   // ✅ Initialize Form
   private initForm(): void {
     this.form = this.fb.group({
+      id: [0],
       name: ['', Validators.required],
       buildingId: [this.buildingId, Validators.required],
       configurationId: [null, Validators.required],
@@ -60,10 +90,40 @@ export class FlatComponent implements OnInit {
     });
   }
 
+  // ✅ Load Flat Data for Edit
+  private loadFlatData(id: number): void {
+    this.projectService.getFlatById(id).subscribe({
+      next: (flat) => {
+        this.form.patchValue({
+          id: flat.id,
+          name: flat.name,
+          buildingId: flat.buildingId || this.buildingId,
+          configurationId: flat.configurationId,
+          facingId: flat.facingId,
+          statusId: flat.statusId,
+          floorNo: flat.floorNo,
+          carpetArea: flat.carpetArea,
+          saleArea: flat.saleArea
+        });
+
+        // Handle Flat Costs
+        if (flat.flatCosts && flat.flatCosts.length > 0) {
+          const costsArray = this.flatCosts;
+          costsArray.clear();
+          flat.flatCosts.forEach(cost => {
+            costsArray.push(this.createCostGroup(cost));
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Error loading flat data:', err);
+        alert('Failed to load flat data');
+      }
+    });
+  }
+
   // ✅ Load initial dropdown data
   private loadDropdownData(): void {
-
-    // 2. Fetch Master Data (Configurations, Facings, CostTypes)
     this.projectService.getMasterData().subscribe(data => {
       this.configurations = data.configurations;
       this.facings = data.facings;
@@ -99,13 +159,12 @@ export class FlatComponent implements OnInit {
 
   // ✅ Submit Form
   submit(): void {
-
-
     this.isSubmitting = true;
 
     const formValue = this.form.value;
     const payload: Flat = {
       ...formValue,
+      id: this.isEditMode ? this.flatId : 0,
       configurationId: Number(formValue.configurationId),
       facingId: Number(formValue.facingId),
       statusId: Number(formValue.statusId),
@@ -115,10 +174,18 @@ export class FlatComponent implements OnInit {
       }))
     };
 
-    this.projectService.createFlat(payload).subscribe({
+    const request = this.isEditMode && this.flatId
+      ? this.projectService.updateFlat(this.flatId, payload)
+      : this.projectService.createFlat(payload);
+
+    request.subscribe({
       next: () => {
-        alert('Flat saved successfully!');
-        this.router.navigate(['/building'], { queryParams: { projectId: this.projectId } });
+        alert(this.isEditMode ? 'Flat updated successfully!' : 'Flat created successfully!');
+        if (this.projectId) {
+          this.router.navigate(['/building', this.projectId]);
+        } else {
+          this.router.navigate(['/']);
+        }
       },
       error: (err) => {
         console.error('Error saving flat:', err);
